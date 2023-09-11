@@ -32,6 +32,7 @@ public class MonsterEvent : MonoBehaviour, StatEvent, IPoolObject
         if(!deadEffect.isPlaying)
         {
             PoolManager.Instance.TakeToPool<MonsterEvent>(name, this);
+            GameManager.Inst.monsterCount -= 1;
         }
     }
 

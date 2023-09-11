@@ -14,9 +14,17 @@ public class Spawner : MonoBehaviour
     }
     IEnumerator SpawnMonster(int idx)
     {
-        int randomPosIdx = Random.Range(0, spawnPos.Count);
-        var monster = PoolManager.Instance.GetFromPool<MonsterEvent>(idx);
-        monster.gameObject.transform.position = spawnPos[randomPosIdx].position;
-        yield return new WaitForSeconds(1f);
+        while (true)
+        {
+            if (GameManager.Inst.monsterCount < 20)
+            {
+                int randomPosIdx = Random.Range(0, spawnPos.Count);
+                var monster = PoolManager.Instance.GetFromPool<MonsterEvent>(idx);
+                monster.gameObject.transform.position = spawnPos[randomPosIdx].position;
+                GameManager.Inst.monsterCount += 1;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 }

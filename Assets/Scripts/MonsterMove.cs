@@ -35,8 +35,13 @@ public class MonsterMove : MonoBehaviour
                 isChased = true;
             }
             Vector3 targetDirection = (target.position - transform.position).normalized;
-
+            Flip(targetDirection.x);
             transform.position += targetDirection * moveSpeed * Time.deltaTime;
         }
+    }
+    void Flip(float dir)
+    {
+        if (dir <= 0) transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        else transform.rotation = Quaternion.identity;
     }
 }
