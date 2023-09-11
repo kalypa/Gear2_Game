@@ -6,7 +6,9 @@ public class PlayerMove : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private Animator animator;
-    public float moveSpeed = 5.0f;
+    public VariableJoystick variableJoystick;
+    public float MoveSpeed;
+    private float moveSpeed { get => MoveSpeed; set => MoveSpeed = value; }
 
     void Start()
     {
@@ -21,8 +23,8 @@ public class PlayerMove : MonoBehaviour
 
     void Move()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = variableJoystick.Horizontal;
+        float vertical = variableJoystick.Vertical;
 
         Vector3 moveDirection = new Vector3(horizontal, vertical).normalized;
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
