@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviour 
 {
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    private Rigidbody2D rigidBody;
     public VariableJoystick variableJoystick;
     public float MoveSpeed;
     private float moveSpeed { get => MoveSpeed; set => MoveSpeed = value; }
 
     void Start()
     {
+        rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
@@ -27,18 +29,15 @@ public class PlayerMove : MonoBehaviour
         float vertical = variableJoystick.Vertical;
 
         Vector3 moveDirection = new Vector3(horizontal, vertical).normalized;
-        Vector3 newPosition = transform.position + moveDirection * moveSpeed * Time.deltaTime;
-        newPosition.x = Mathf.Clamp(newPosition.x, -18.5f, 18.5f);
-        newPosition.y = Mathf.Clamp(newPosition.y, -10f, 10f);
-        transform.position = newPosition;
+        Vector3 newPosition = transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
+        rigidBody.MovePosition(newPosition);
         Flip(horizontal);
         RunAnim(horizontal, vertical);
     }
 
     void Flip(float horizontal)
     {
-        if (horizontal > 0) spriteRenderer.flipX = false;
-        else if (horizontal < 0) spriteRenderer.flipX = true;
+        if(Mathf.Abs(horizontal) > 0) spriteRenderer.flipX = horizontal < 0;
     }
 
     void RunAnim(float h, float v)
