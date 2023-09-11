@@ -27,8 +27,10 @@ public class PlayerMove : MonoBehaviour
         float vertical = variableJoystick.Vertical;
 
         Vector3 moveDirection = new Vector3(horizontal, vertical).normalized;
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
+        Vector3 newPosition = transform.position + moveDirection * moveSpeed * Time.deltaTime;
+        newPosition.x = Mathf.Clamp(newPosition.x, -18.5f, 18.5f);
+        newPosition.y = Mathf.Clamp(newPosition.y, -10f, 10f);
+        transform.position = newPosition;
         Flip(horizontal);
         RunAnim(horizontal, vertical);
     }
